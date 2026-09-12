@@ -34,7 +34,7 @@ public class ValidadorTestes
 
     [Fact]
     // dois erros acumulam, service retorna Exception, Repository não é chamado.
-    public void Adicionar_Gasto_Lanca_ErroDeValidacaoDeGastoException_Repo_Nao_Eh_Chamado()
+    public async Task Adicionar_Gasto_Lanca_ErroDeValidacaoDeGastoException_Repo_Nao_Eh_Chamado()
     {
         // arrange
         Gasto gasto = new();
@@ -48,15 +48,15 @@ public class ValidadorTestes
         var service = new GastoService(repository);
 
         // act + assert
-        Assert.Throws<ErroDeValidacaoDeGastoException>(() => ValidaGasto.ValidarGasto(gasto));
+        await Assert.ThrowsAsync<ErroDeValidacaoDeGastoException>(() => service.AdicionarGasto(gasto));
         var gastoAdc = service.AdicionarGasto(gasto);
-
-        mockRepo.Verify();
     }
 
     [Fact]
-    public void X()
+    // validar como retornam as mensagens de erro em mais de um erro
+    public void ValidaGasto_Retorna_Duas_Mensagens_De_Erro()
     {
+        
 
     }
 
